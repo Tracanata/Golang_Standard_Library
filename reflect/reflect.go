@@ -15,21 +15,22 @@ type Person struct {
 	Email   string `required:"true" max:"10"`
 }
 
-// func readField(value any) {
-// 	var valueType reflect.Type = reflect.TypeOf(value)
-// 	/*<-- Penulisan cepat -->
-// 	valueType := reflect.TypeOf(value)*/
-// 	fmt.Println("Type Name", valueType.Name())
-// 	// mengecek jumlah field
-// 	for i := 0; i < valueType.NumField(); i++ {
-// 		var structField reflect.StructField = valueType.Field(i)
-// 		// fmt.Println(StructField.Name)
-// 		// fmt.Println(StructField.Type)
-// 		fmt.Println(structField.Name, "with type", structField.Type)
-// 		fmt.Println(structField.Tag.Get("required"))
-// 		fmt.Println(structField.Tag.Get("max"))
-// 	}
-// }
+func readField(value any) {
+	// <-- Penulisan Biasa -->
+	// var valueType reflect.Type = reflect.TypeOf(value)
+	/*<-- Penulisan cepat -->*/
+	valueType := reflect.TypeOf(value)
+	fmt.Println("Type Name", valueType.Name())
+	// mengecek jumlah field
+	for i := 0; i < valueType.NumField(); i++ {
+		var structField reflect.StructField = valueType.Field(i)
+		// fmt.Println(StructField.Name)
+		// fmt.Println(StructField.Type)
+		fmt.Println(structField.Name, "with type", structField.Type)
+		fmt.Println(structField.Tag.Get("required"))
+		fmt.Println(structField.Tag.Get("max"))
+	}
+}
 
 func isValid(value any) (result bool) {
 	result = true
@@ -38,7 +39,7 @@ func isValid(value any) (result bool) {
 		f := t.Field(i)
 		if f.Tag.Get("required") == "true" {
 			data := reflect.ValueOf(value).Field(i).Interface()
-			result := data != ""
+			result = data != ""
 			if result == false {
 				return result
 			}
@@ -48,10 +49,8 @@ func isValid(value any) (result bool) {
 }
 
 func main() {
-	/*
-		readField(Sample{"EKO"})
-		readField(Person{"FATRA", "", ""})
-	*/
+	// readField(Sample{"EKO"})
+	// readField(Person{"FATRA", "", ""})
 
 	person := Person{
 		Name:    "Fatra",
